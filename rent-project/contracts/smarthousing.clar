@@ -123,3 +123,62 @@
           }))))
     err-not-found))
 
+;; Rate a property
+(define-public (rate-property (property-id uint) (rating uint))
+  (match (map-get? properties { property-id: property-id })
+    property
+      (begin
+        (asserts! (and (>= rating u1) (<= rating u5)) err-invalid-rating)
+        (asserts! (is-eq (some tx-sender) (get tenant property)) err-not-tenant)
+        (ok (map-set properties
+          { property-id: property-id }
+          (merge property { rating: rating }))))
+    err-not-found))
+
+;; Rate a user (can be tenant or owner)
+(define-public (rate-user (user principal) (rating uint))
+  (let ((user-rating (default-to { total-rating: u0, count: u0 } (map-get? user-ratings { user: user }))))
+    (begin
+      (asserts! (and (>= rating u1) (<= rating u5)) err-invalid-rating)
+      (ok (map-set user-ratings
+        { user: user }
+        {
+          total-rating: (+ (get total-rating user-rating) rating),
+          count: (+ (get count user-rating) u1)
+        }))))
+
+;; Get property details
+(define-read-only (get-property-details (property-id uint))
+  (match (map-get? properties { property-id: property-id })
+    property (ok property)
+    err-not-found))
+
+;; Get user rating
+(define-read-only (get-user-rating (user principal))
+  (match (map-get? user-ratings { user: user })
+    rating (ok (if (is-eq (get count rating) u0)
+                 u0
+                 (/ (get total-rating rating) (get count rating))))
+    (ok u0)))
+
+;; Get total properties
+(define-read-only (get-total-properties)
+  (ok (var-get total-properties)))
+
+;; Get remaining lease time
+(define-read-only (get-remaining-lease-time (property-id uint))
+  (match (map-get? properties { property-id: property-id })
+    property
+      (let ((tenant (get tenant property))
+            (lease-start (get lease-start-time property))
+            (duration (get rental-duration property)))
+        (ok (if (is-some tenant)
+              (if (> (+ lease-start duration) block-height)
+                (- (+ lease-start duration) block-height)
+                u0)
+              u0)))
+    err-not-found))
+
+;; Check if the contract is initialized
+(define-read-only (is-initialized)
+  (ok (var-get contract-initialized)))
