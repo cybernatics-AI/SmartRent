@@ -33,7 +33,7 @@
     rating: uint
   }
 )
-
+  
 (define-map user-ratings { user: principal } { total-rating: uint, count: uint })
 
 ;; Initialize contract
@@ -145,7 +145,7 @@
         {
           total-rating: (+ (get total-rating user-rating) rating),
           count: (+ (get count user-rating) u1)
-        }))))
+        })))))
 
 ;; Get property details
 (define-read-only (get-property-details (property-id uint))
