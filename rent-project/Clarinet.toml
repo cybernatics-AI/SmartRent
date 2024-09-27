@@ -4,10 +4,6 @@ authors = []
 description = ""
 telemetry = true
 requirements = []
-[contracts.smartcontract]
-path = "contracts/smartcontract.clar"
-depends_on = []
-
 [contracts.smarthousing]
 path = "contracts/smarthousing.clar"
 depends_on = []
