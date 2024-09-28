@@ -1,99 +1,132 @@
-# Web3.0 Property Rental Project
+# SmartRent: Decentralized Property Rental Smart Contract
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Smart Contract Overview](#smart-contract-overview)
-4. [Getting Started](#getting-started)
-5. [Usage](#usage)
-6. [Functions](#functions)
-7. [Security Considerations](#security-considerations)
-8. [Contributing](#contributing)
-9. [License](#license)
-
+1. Introduction
+2. Features
+3. Technologies Used
+4. Getting Started
+   Prerequisites
+   Installation
+5. Contract Overview
+6. Usage
+7. Function Details
+8. Security Considerations
+9. Testing
+10. Deployment
+11. Contributing
+12. License
+13. Contact
 ## Introduction
 
-This project implements a decentralized property rental system using blockchain technology. It allows property owners to list their properties for rent, and tenants to rent these properties using cryptocurrency transactions. The system includes features such as security deposits, ratings for both properties and users, and automated lease management.
+SmartRent is a decentralized application (dApp) built on the Stacks blockchain, designed to revolutionize the property rental market. It provides a trustless platform for property owners and tenants to engage in rental agreements, manage payments, and handle disputes without intermediaries.
 
 ## Features
 
-- Property listing and management
-- Secure rental transactions with cryptocurrency
-- Automated security deposit handling
-- User and property rating system
-- Lease duration tracking
-- Platform fee collection
-- Decentralized and transparent operations
+- Decentralized property listing and rental
+- Secure payment handling with escrow
+- Automated lease management
+- User rating system for both tenants and property owners
+- Property availability toggling
+- Lease extension capabilities
+- Platform fee management
 
-## Smart Contract Overview
+## Technologies Used
 
-The smart contract is written in Clarity, a decidable smart contract language designed for use with the Stacks blockchain. It includes the following key components:
-
-- Data structures for storing property and user information
-- Functions for property management (adding, updating, renting)
-- Lease management (starting and ending leases)
-- Rating system for properties and users
-- Read-only functions for retrieving information
+- Clarity: The smart contract programming language for Stacks
+- Stacks Blockchain: The underlying blockchain technology
+- Clarinet: Development and testing framework for Clarity smart contracts
 
 ## Getting Started
 
-To use this smart contract, you'll need:
+### Prerequisites
 
-1. A Stacks wallet (e.g., Hiro Wallet)
-2. STX tokens for transaction fees and rentals
-3. Access to a Stacks blockchain node
+- [Clarinet](https://github.com/hirosystems/clarinet)
+- [Stacks Wallet](https://www.hiro.so/wallet)
 
-(Add specific instructions for setting up the development environment, deploying the contract, etc.)
+### Installation
+
+1. Clone the repository:
+2. Navigate to the project directory.
+3. Install dependencies (if any):
+   ```
+   npm install
+   ```
+
+## Contract Overview
+
+The SmartRent contract consists of several key components:
+
+1. Property Management: Listing, updating, and managing property details
+2. Rental Process: Handling the rental transaction and lease management
+3. User Ratings: Allowing users to rate each other after transactions
+4. Admin Functions: Contract initialization and fee management
 
 ## Usage
 
 ### For Property Owners
 
-1. Initialize the contract (only done once by the contract owner)
-2. Add your property using the `add-property` function
-3. Update property details as needed with `update-property`
-4. Receive rental payments and manage your properties
+1. List a property using the `add-property` function
+2. Update property details with `update-property`
+3. Toggle property availability using `toggle-property-availability`
+4. End a lease with `end-lease` when the term is complete
 
 ### For Tenants
 
-1. Browse available properties (use `get-property-details`)
-2. Rent a property using the `rent-property` function
-3. End your lease when appropriate with `end-lease`
-4. Rate properties and users after your stay
+1. Rent a property using the `rent-property` function
+2. Extend a lease with `extend-lease` if needed
+3. Rate the property/owner after the lease ends using `rate-property`
 
-## Functions
+## Function Details
 
-### Public Functions
-
-- `initialize`: Set up the contract with a platform fee percentage
+- `initialize`: Set up the contract with initial parameters
 - `add-property`: List a new property for rent
-- `update-property`: Modify details of an existing property
-- `rent-property`: Rent an available property
-- `end-lease`: Terminate a lease and return the security deposit
-- `rate-property`: Rate a property after staying
-- `rate-user`: Rate another user (tenant or owner)
-
-### Read-Only Functions
-
-- `get-property-details`: Retrieve information about a specific property
-- `get-user-rating`: Get the average rating for a user
-- `get-total-properties`: Get the total number of properties listed
-- `get-remaining-lease-time`: Check the remaining time on an active lease
-- `is-initialized`: Check if the contract has been initialized
+- `update-property`: Modify existing property details
+- `toggle-property-availability`: Change the availability status of a property
+- `rent-property`: Initiate a rental agreement for a property
+- `end-lease`: Terminate a lease agreement
+- `extend-lease`: Lengthen the duration of an existing lease
+- `rate-property`: Provide a rating for a property after a rental period
+- `rate-user`: Rate another user (tenant or owner) after a transaction
+- `verify-user`: Admin function to verify a user's account
+- `update-platform-fee`: Admin function to adjust the platform fee percentage
+- `update-escrow-address`: Admin function to change the escrow address
 
 ## Security Considerations
 
-- The contract includes access control to ensure only authorized users can perform certain actions
-- Security deposits are held by the contract and automatically returned when a lease ends
-- User funds are protected by requiring sufficient balance before allowing rentals
-- Rating system helps build trust in the platform
+- The contract includes various checks and balances to ensure secure operations
+- Input validation is performed on all public functions
+- Only the contract owner can perform certain administrative actions
+- Funds are held in escrow to protect both parties in a transaction
+
+## Testing
+
+To run the test suite:
+
+```
+clarinet test
+```
+
+Ensure all tests pass before deploying or making changes to the contract.
+
+## Deployment
+
+1. Build the contract:
+   ```
+   clarinet build
+   ```
+2. Deploy to testnet or mainnet using the Stacks CLI or a wallet interface.
 
 ## Contributing
 
-We welcome contributions to improve this project. Please follow these steps:
+We welcome contributions to the SmartRent project. Please follow these steps:
 
 1. Fork the repository
 2. Create a new branch for your feature
 3. Commit your changes
-4. Push to your branch
-5. Create a new Pull Request
+4. Push to your fork
+5. Submit a pull request
+
+
+## Contact
+
+For questions or support, please open an issue in the GitHub repository or contact the maintainers at dev.triggerfish@gmail.com
